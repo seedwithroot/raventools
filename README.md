@@ -1,4 +1,4 @@
-raven-tools
+raventools
 ===========
 
 Python wrapper for Raven Tools API
