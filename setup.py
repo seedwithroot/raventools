@@ -7,5 +7,5 @@ setup(name='raventools',
 	author='Sam Sandberg',
 	author_email='sam.sandberg@gmail.com',
 	url='https://api.raventools.com/docs/',
-	packages=['raventools'] + [ 'raventools.%s' % package for package in find_packages('.') ],
+	packages=['raventools']
 )
