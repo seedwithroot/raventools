@@ -1,7 +1,11 @@
 
 import json
+import logging
 import urllib
 import urllib2
+
+
+logger = logging.getLogger(__name__)
 
 
 class RavenToolsException(Exception):
@@ -35,10 +39,21 @@ class RavenTools(object):
 		else:
 			raise RavenToolsException("Invalid request type passed - GET or POST is required")
 		
-		response = urllib2.urlopen(req)
-		result = response.read()
+		logger.debug("Making %s request to %s ..." % (request_type, url))
 		
-		json_result = json.loads(result)
+		try:
+			response = urllib2.urlopen(req)
+			result = response.read()
+		except Exception, e:
+			raise RavenToolsException("urllib2 exception: %s" % e)
+		
+		logger.debug("Making %s request to %s ..." % (request_type, url))
+		
+		try:
+			json_result = json.loads(result)
+		except Exception, e:
+			raise RavenToolsException("json exception: %s" % e)
+		
 		return json_result
 	
 	
