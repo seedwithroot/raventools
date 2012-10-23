@@ -16,7 +16,7 @@ class RavenTools(object):
 		self.api_key = api_key
 	
 	
-	def _make_api_request(self, method, request_type = 'GET', params = None):
+	def _make_api_request(self, method, params = None, request_type = 'GET'):
 		if not params:
 			params = {}
 		
@@ -64,7 +64,7 @@ class RavenTools(object):
 		
 		'''
 		params = {'domain': domain, 'engine_id': '1,2,3'}
-		result = self._make_api_request('add_domain', 'GET', params)
+		result = self._make_api_request('add_domain', params)
 		if result['response'] != 'success':
 			raise RavenToolsException("Response from add_domain() was not a success!")
 	
@@ -109,5 +109,25 @@ class RavenTools(object):
 		if domain:
 			params['domain'] = domain
 		
-		return self._make_api_request('add_links', 'GET', params)
+		return self._make_api_request('add_links', params)
+	
+	
+	def delete_links(self, link_ids):
+		'''This request allows you to pass in a JSON encoded string with link data for the links you would like to update and returns a list of the link ID's and if they were properly updated.
+		
+		Params:
+			link_ids [list of link ids to be deleted]
+		
+		Output:
+			{dict of int:boolean results for deleting the links}
+		'''
+		links = [{"link id": link_id} for link_id in link_ids]
+		params = {'link': json.dumps(links)}
+		
+		results = self._make_api_request('delete_links', params)
+		
+		for k, v in results.iteritems():
+			results[k] = v and True or False
+		
+		return results
 
