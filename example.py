@@ -1,7 +1,7 @@
 
 from pprint import pprint
 
-from raventools import RavenTools
+from raventools.raventools import RavenTools
 
 
 rt = RavenTools('[your API key here]')
